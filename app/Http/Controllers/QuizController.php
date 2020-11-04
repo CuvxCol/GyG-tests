@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Quiz;
 use Illuminate\Http\Request;
-use DB;
 
 class QuizController extends Controller
 {
@@ -15,7 +15,8 @@ class QuizController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $quiz = DB::table('quiz')->get();
-        return view('quiz',compact('quiz'));
+        return view('quiz',[
+            'quiz'=>Quiz::get()
+            ]);
     }
 }

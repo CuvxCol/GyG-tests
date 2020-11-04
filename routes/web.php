@@ -13,4 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'QuizController');
+/*Route::resource('Quiz','QuizController');*/
+Route::get('/', 'DoQuizController');
