@@ -12,14 +12,14 @@
         <header>{{$doQuiz->tittle}}</header>
         <div class="progress-bar">
             <div class="step">
-                <p>P1-5</p>
+                <p>P1-2</p>
                 <div class="bullet">
                     <span>1</span>
                 </div>
                 <div class="check fas fa-check"></div>
             </div>
             <div class="step">
-                <p>P6-10</p>
+                <p>P3-10</p>
                 <div class="bullet">
                     <span>2</span>
                 </div>
@@ -42,6 +42,7 @@
         </div>
         <div class="form-outer">
             <form id="formulario_ansiedad" action="#">
+                <input name="surveyed_id" type="hidden" value="{{$doQuiz->surveyed}}">
                 @foreach ($doQuiz->questions as $question)
                 <div class="page slidepage">
                     <div class="title">Pregunta {{$question->question_number}}</div>
@@ -54,6 +55,5 @@
             </form>
         </div>
     </div>
-    <script src="/js/script.js"></script>
 </body>
 </html>

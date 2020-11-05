@@ -22,8 +22,16 @@ class DoQuizController extends Controller
             $question->answers = DB::table('answer')->where('question_id', $question->id)->get();
         }
 
-        return view('doQuiz',[
-            'doQuiz'=>$doQuiz
-            ]);
+        if(request('surveyed')==null){
+            return redirect()->route('surveyed.create');
+        }else{
+            $doQuiz->surveyed = request('surveyed');
+            return view('doQuiz',[
+                'doQuiz'=>$doQuiz
+                ]);
+        }
+        
+
+        
     }
 }
