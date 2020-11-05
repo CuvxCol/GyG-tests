@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::resource('Quiz','QuizController');*/
 Route::get('doQuiz', 'DoQuizController')->name('doQuiz');
+
 Route::get('/', 'SurveyedController@create')->name('surveyed.create');
 Route::post('/surveyed/store', 'SurveyedController@store')->name('surveyed.store');
+
+Route::post('/registry/store','RegistryController@store')->name('registry.store');
