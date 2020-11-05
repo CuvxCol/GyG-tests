@@ -22,6 +22,8 @@ class DoQuizController extends Controller
             $question->answers = DB::table('answer')->where('question_id', $question->id)->get();
         }
 
-        return json_encode($doQuiz);
+        return view('doQuiz',[
+            'doQuiz'=>$doQuiz
+            ]);
     }
 }
