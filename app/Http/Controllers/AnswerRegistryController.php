@@ -41,18 +41,41 @@ class AnswerRegistryController extends Controller
             ['question_number',request('question')]
         ])->first();
 
+        $pastQuestion = DB::table('question')->where([
+            ['quiz_id',request('quiz')],
+            ['question_number',request('question')-1]
+        ])->first();
+
+        $answer = null;
         $answer = DB::table('answer')->where([
             ['question_id', $question->id],
             ['answer_number',request('answer')+1]
             ])->first();
 
+        if(request('question') > 1){
+            $pastTime = DB::table('answer_registry')->where([
+                ['registry_id', request('registry')],
+                ['question_id',$pastQuestion->id]
+                ])->first();
+        }else{
+            $pastTime = DB::table('registry')->where([
+                ['id', request('registry')]
+            ])->first();
+        }
+
+        $pastTime = date_create($pastTime->created_at);
+        $ldate = date_create(date('Y-m-d H:i:s'));
+        $time = date_diff($pastTime,$ldate);
+        $seconds = null;
+        $seconds = ($time->y * 31557600) + ($time->m * 2629800)+ ($time->d * 86400)+ ($time->h * 3600)+($time->i * 60) + $time->s;
+
         $registry = AnswerRegistry::create([
             'registry_id'=>request('registry'),
-            'question_id'=>request('question'),
+            'question_id'=>$question->id,
             'answer_id'=>$answer->id,
-            'response_time' => 1
+            'response_time' => $seconds
             ]);
-        
+
         $Contar = DB::table('question')->where('quiz_id', request('quiz'))->get()->count();
         if($Contar  == request('question') ){
             return redirect()->route('surveyed.create');
