@@ -41,17 +41,18 @@
             </div>
         </div>
         <div class="form-outer">
-            <form id="formulario_ansiedad" action="#">
-                <input name="surveyed_id" type="hidden" value="{{$doQuiz->surveyed}}">
-                @foreach ($doQuiz->questions as $question)
+            <form method="POST" id="formulario_ansiedad" action="{{ route('answer_registry.store') }}">
+                @csrf
+                <input name="quiz" type="hidden" value="{{$doQuiz->id}}">
+                <input name="question" type="hidden" value="{{$doQuiz->questions->question_number}}">
+                <input name="registry" type="hidden" value="{{$doQuiz->questions->registry}}">
                 <div class="page slidepage">
-                    <div class="title">Pregunta {{$question->question_number}}</div>
+                    <div class="title">Pregunta {{$doQuiz->questions->question_number}}</div>
                     <div class="field">
-                        <label for="p" id="l{{$question->question_number}}">{{$question->question}}</label>
-                        <input type="number" id="p{{$question->question_number}}" min="0" max="3" step="1" autofocus onkeydown="onKeyDown(event,{{$question->question_number/100}},{{$question->question_number}},{{$question->question_number - 1}})">
+                        <label for="p" id="l{{$doQuiz->questions->question_number}}">{{$doQuiz->questions->question}}</label>
+                        <input name='answer' type="number" id="p{{$doQuiz->questions->question_number}}" min="0" max="3" step="1" autofocus onkeydown="onKeyDown(event,{{$doQuiz->questions->question_number/100}},{{$doQuiz->questions->question_number}},{{$doQuiz->questions->question_number - 1}})">
                     </div>
                 </div>
-                @endforeach
             </form>
         </div>
     </div>

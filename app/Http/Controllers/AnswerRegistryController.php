@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use App\Surveyed;
-use App\Registry;
+use App\AnswerRegistry;
 use Illuminate\Http\Request;
+use DB;
 
-class SurveyedController extends Controller
+class AnswerRegistryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +25,7 @@ class SurveyedController extends Controller
      */
     public function create()
     {
-        return view('surveyed.home');
+        //
     }
 
     /**
@@ -35,23 +34,37 @@ class SurveyedController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        $fields = request()->validate([
-            'id' => 'required'
-        ],[
-            'id.required' => 'Identificación requerida'
-        ]);
+        $question = DB::table('question')->where([
+            ['quiz_id',request('quiz')],
+            ['question_number',request('question')]
+        ])->first();
 
-        $surveyed = Surveyed::where('id', '=', request('id'))->first();
-        if ($surveyed === null) {
-            Surveyed::create(request()->only('id'));
+        $answer = DB::table('answer')->where([
+            ['question_id', $question->id],
+            ['answer_number',request('answer')+1]
+            ])->first();
+
+        $registry = AnswerRegistry::create([
+            'registry_id'=>request('registry'),
+            'question_id'=>request('question'),
+            'answer_id'=>$answer->id,
+            'response_time' => 1
+            ]);
+        
+        $Contar = DB::table('question')->where('quiz_id', request('quiz'))->get()->count();
+        if($Contar  == request('question') ){
+            return redirect()->route('surveyed.create');
+        }else{
+            return redirect()->route('doQuiz',[
+                'registry'=>request('registry'),
+                'quiz'=>request('quiz'),
+                'question'=>request('question')
+                ]);
         }
 
-        $quiz = DB::table('quiz')->where('active', 'true')->first();
-        $registry = Registry::create(['surveyed_id'=>request('id'),'quiz_id'=>$quiz->id]);
         
-        return redirect()->route('doQuiz',['registry'=>$registry->id,'quiz'=>$quiz->id,'question'=>0]);
     }
 
     /**

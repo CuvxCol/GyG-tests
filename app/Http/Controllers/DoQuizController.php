@@ -15,23 +15,23 @@ class DoQuizController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $doQuiz = DB::table('quiz')->where('active', 'true')->first();
-        $doQuiz->questions = DB::table('question')->where('quiz_id', $doQuiz->id)->get();
+        $doQuiz = null;
+        $doQuiz = DB::table('quiz')->where('active', 1)->first();
 
-        foreach($doQuiz->questions as $question){
-            $question->answers = DB::table('answer')->where('question_id', $question->id)->get();
-        }
-
-        if(request('surveyed')==null){
+        if($doQuiz == null){
             return redirect()->route('surveyed.create');
-        }else{
-            $doQuiz->surveyed = request('surveyed');
-            return view('doQuiz',[
-                'doQuiz'=>$doQuiz
-                ]);
         }
-        
 
+        $doQuiz->questions = DB::table('question')->where([
+            ['quiz_id', $doQuiz->id],
+            ['question_number',$request->question+1]
+            ])->first();
+
+        $doQuiz->questions->answers = DB::table('answer')->where('question_id', $doQuiz->questions->id)->get();
+        $doQuiz->questions->registry = request('registry');
+        return view('doQuiz',[
+            'doQuiz'=>$doQuiz
+            ]);
         
     }
 }

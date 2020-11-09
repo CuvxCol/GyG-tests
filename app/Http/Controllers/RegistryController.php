@@ -35,7 +35,12 @@ class RegistryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(request('surveyed')==null){
+            return redirect()->route('surveyed.create');
+        }else{
+            return "Llego";
+            Registry::create(request()->only('surveyed_id','quiz_id'));
+        }
     }
 
     /**
