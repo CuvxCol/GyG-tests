@@ -51,6 +51,7 @@
                     <div class="field">
                         <label for="p" id="l{{$doQuiz->questions->question_number}}">{{$doQuiz->questions->question}}</label>
                         <input name='answer' type="number" id="p{{$doQuiz->questions->question_number}}" min="0" max="3" step="1" autofocus onkeydown="onKeyDown(event,{{$doQuiz->questions->question_number/100}},{{$doQuiz->questions->question_number}},{{$doQuiz->questions->question_number - 1}})">
+                        {!! $errors->first('answer','<small style="color:#FF0000">:message</small>') !!}
                     </div>
                 </div>
             </form>

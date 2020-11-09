@@ -36,6 +36,12 @@ class AnswerRegistryController extends Controller
      */
     public function store(Request $request)
     {
+        $fields = request()->validate([
+            'answer' => 'required'
+        ],[
+            'answer.required' => 'Respuesta requerida'
+        ]);
+
         $question = DB::table('question')->where([
             ['quiz_id',request('quiz')],
             ['question_number',request('question')]
