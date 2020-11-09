@@ -69,7 +69,7 @@ class AnswerRegistryController extends Controller
         $seconds = null;
         $seconds = ($time->y * 31557600) + ($time->m * 2629800)+ ($time->d * 86400)+ ($time->h * 3600)+($time->i * 60) + $time->s;
 
-        $registry = AnswerRegistry::create([
+        AnswerRegistry::create([
             'registry_id'=>request('registry'),
             'question_id'=>$question->id,
             'answer_id'=>$answer->id,

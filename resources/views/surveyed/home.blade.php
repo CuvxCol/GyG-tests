@@ -23,5 +23,6 @@
                 </div>
             </form>
         </div>
+        <script src="/js/script1.js"></script>
 </body>
 </html>
