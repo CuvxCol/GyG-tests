@@ -48,7 +48,7 @@ class SurveyedController extends Controller
             Surveyed::create(request()->only('id'));
         }
 
-        $quiz = DB::table('quiz')->where('active', 'true')->first();
+        $quiz = DB::table('quiz')->where('active', 1)->first();
         $registry = Registry::create(['surveyed_id'=>request('id'),'quiz_id'=>$quiz->id]);
         
         return redirect()->route('doQuiz',['registry'=>$registry->id,'quiz'=>$quiz->id,'question'=>0]);
