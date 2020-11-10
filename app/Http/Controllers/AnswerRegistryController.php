@@ -84,6 +84,9 @@ class AnswerRegistryController extends Controller
 
         $Contar = DB::table('question')->where('quiz_id', request('quiz'))->get()->count();
         if($Contar  == request('question') ){
+            DB::table('registry')
+                ->where('id',request('registry'))
+                ->update(['state'=>true]);
             return redirect()->route('surveyed.create');
         }else{
             return redirect()->route('doQuiz',[
