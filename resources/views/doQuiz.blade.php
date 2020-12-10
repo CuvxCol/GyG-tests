@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <header>{{$doQuiz->tittle}}</header>
+        <header>{{$doQuiz->title}}</header>
         <div class="progress-bar">
             <div class="step">
                 <p>P1-2</p>
