@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\returnArgument;
 
 class DoQuizController extends Controller
 {
@@ -29,9 +30,10 @@ class DoQuizController extends Controller
 
         $doQuiz->questions->answers = DB::table('answer')->where('question_id', $doQuiz->questions->id)->get();
         $doQuiz->questions->registry = request('registry');
+        //return json_encode($doQuiz->description);
         return view('doQuiz',[
             'doQuiz'=>$doQuiz
             ]);
-        
+
     }
 }

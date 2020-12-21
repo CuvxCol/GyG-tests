@@ -9,22 +9,14 @@ const bullet =document.querySelectorAll('.step .bullet');
 let max = 4;
 let current = 1;
 
+
+
 function onKeyDown(event,tam, numpage,pblur) {
     const key = event.key; // "A", "1", "Enter", "ArrowRight"...
-    //console.log("Presionada: " + key);    
+    //console.log("Presionada: " + key);
     switch(key){
         case 'r':
-            decir("Instrucciones:");
-            decir(" Este cuestionario consta de 21 grupos de afirmaciones.");
-            decir(" Por favor, escuche con atención cada uno de ellos");
-            decir("Luego elija uno de cada grupo, el que mejor describa el modo como se ha sentido las últimas dos semanas,");
-            decir("Recuerda que:");
-            decir("presiona 0 para indicar que no lo molesta.");
-            decir("1 si es levemente o no molesta mucho.");
-            decir("2 para cuando es muy desagradable pero lo puede soportar.");
-            decir("3 si es severo o casi no puede soportarlo.");
-            decir("Y recuerda que pulsando la tecla Enter se mandará tu respuesta");
-            decir("Ingresar su numero de identidad.");
+            decir(document.getElementById('quiz_description').textContent);
             break;
         case ' ':
             decir(document.getElementById(v_label[pblur].id).textContent);
@@ -92,15 +84,23 @@ function onKeyDown(event,tam, numpage,pblur) {
                         progressCheck[current-1].classList.add("active");
                         current += 1;
                         break;
-                }                  
+                }
                 document.getElementById(v_inputs[numpage].id).focus();
             }else{
                 decir("Gracias por realizar esta encuesta");
                 document.getElementById("formulario_ansiedad").submit();
             }
             break;
+        default:
+            decir("Escriba solo números");
     }
 }
 function decir(texto) {
     speechSynthesis.speak(new SpeechSynthesisUtterance(texto));
+    /*utterance = new SpeechSynthesisUtterance();
+    utterance.voice = speechSynthesis.getVoices()[2];
+    utterance.text = texto;
+    speechSynthesis.speak(utterance);
+     */
+
 }

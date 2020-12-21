@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Quiz;
 use DB;
 use App\Surveyed;
 use App\Registry;
@@ -26,7 +27,9 @@ class SurveyedController extends Controller
      */
     public function create()
     {
-        return view('surveyed.home');
+        return view('surveyed.home',[
+            'quiz'=>Quiz::where('active','1')->get()->first()
+        ]);
     }
 
     /**
@@ -50,7 +53,7 @@ class SurveyedController extends Controller
 
         $quiz = DB::table('quiz')->where('active', 1)->first();
         $registry = Registry::create(['surveyed_id'=>request('id'),'quiz_id'=>$quiz->id]);
-        
+
         return redirect()->route('doQuiz',['registry'=>$registry->id,'quiz'=>$quiz->id,'question'=>0]);
     }
 
